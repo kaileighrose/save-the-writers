@@ -72,6 +72,11 @@ class ApplicationController < Sinatra::Base
     erb :'resources/show_resource'
   end
 
+  get '/resources/:id/edit' do
+    @resource = Resource.find_by_id(params[:id])
+    erb :'resources/edit'
+  end
+
   post '/login' do
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
@@ -94,13 +99,31 @@ class ApplicationController < Sinatra::Base
 
   patch '/resources/:id' do
     @resource = Resource.find_by_id(params[:id])
-    if !params[:content].empty?
-      @resource.content = params[:content]
+    if !params["name"].empty?
+      @resource.name = params["name"]
       @resource.save
-      redirect to "resources/<%=@resource.id%>"
-    else
-      redirect to "/failure"
     end
+    if !params["category"].empty?
+      @resource.category = params["category"]
+      @resource.save
+    end
+    if !params["cost"].empty?
+      @resource.cost = params["cost"]
+      @resource.save
+    end
+    if !params["link"].empty?
+      @resource.link = params["link"]
+      @resource.save
+    end
+    if !params["source"].empty?
+      @resource.source = params["source"]
+      @resource.save
+    end
+    if !params["notes"].empty?
+      @resource.notes = params["notes"]
+      @resource.save
+    end
+    redirect to "resources/#{@resource.id}"
   end
 
   get "/failure" do

@@ -1,1 +1,30 @@
 <h1>Edit Resource</h1>
+
+<form action="/resources/<%=@resource.id%>" method="POST">
+<input id="hidden" type="hidden" name="_method" value="patch">
+    <label>Name:</label>
+  <br></br>
+    <input id="resource_name" type="text" name="name" placeholder="<%=@resource.name%>">
+  <br></br>
+    <label>Category:</label>
+  <br></br> 
+    <input id= "resource_category" type="text" name="category" placeholder="<%=@resource.category%>">
+  <br></br>
+    <label>Link:</label>
+  <br></br> 
+    <input id= "resource_link" type="text" name="link" placeholder="<%=@resource.link%>">
+  <br></br>
+    <label>Source:</label>
+  <br></br> 
+    <input id= "resource_source" type="text" name="source" placeholder="<%=@resource.source%>">
+  <br></br>
+    <label>Cost:</label>
+  <br></br> 
+    <input id= "resource_cost" type="text" name="cost" placeholder="<%=@resource.cost%>">
+  <br></br>
+    <label>Notes:</label>
+  <br></br> 
+    <input id= "resource_notes" type="text" name="notes" placeholder="<%=@resource.notes%>">
+  <br></br>   
+    <input type="submit" value="Submit Changes">
+</form>
