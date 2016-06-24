@@ -15,24 +15,59 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/login' do
-    erb :'users/login'
-  end
-
-  get '/signup' do
-    if !logged
-    erb :'users/create_user'
-  end
-
-  post '/signup' do
-    user = User.new(:username => params[:username], :password => params[:password])
-    if user.save
-        redirect "/login"
+    if !logged_in?
+      erb :'users/login'
     else
-        redirect "/failure"
+      redirect to "/resources"
     end
   end
 
-  get 'resources/:id' do
+  get '/signup' do
+    if !logged_in?
+      erb :'users/create_user'
+    else
+      redirect to "/resources"
+    end
+  end
+
+  post '/signup' do
+    if !params[:username].empty? && !params[:password].empty?
+      user = User.create(:username => params[:username], :password => params[:password])
+      redirect "/login"
+    else
+      redirect "/failure"
+    end
+  end
+
+  get '/resources' do
+    if logged_in?
+      @resources = current_user.resources
+      erb :all_resources
+    else
+      redirect "/failure"
+    end
+  end
+
+  get '/resources/new' do
+    if logged_in?
+      erb :'/resources/new'
+    else
+      redirect to "/login"
+    end  
+  end
+
+  post '/resources' do
+    if !params["name"].empty?
+      @resource = Resource.create(:name => params[:name], :category => params[:category], :link => params[:link], :source => params[:source], :cost => params[:cost], :notes => params[:notes])
+      @resource.user_id = current_user.id
+      @resource.save
+      redirect to "/resources/#{@resource.id}"
+    else
+      redirect to '/failure'
+    end
+  end
+
+  get '/resources/:id' do
     @resource = Resource.find_by_id(params[:id])
     erb :'resources/show_resource'
   end
@@ -41,9 +76,30 @@ class ApplicationController < Sinatra::Base
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
         session[:user_id] = user.id
-        redirect to "/tweets"
+        redirect to "/resources"
     else
         redirect to "/failure"
+    end
+  end
+
+  delete '/resources/:id/delete' do
+    @resource = Resource.find_by_id(params[:id])
+    if logged_in? && session[:user_id] == @resource.user_id
+      @resource.delete
+      redirect to '/resources'
+    else
+      redirect to "/login"
+    end
+  end
+
+  patch '/resources/:id' do
+    @resource = Resource.find_by_id(params[:id])
+    if !params[:content].empty?
+      @resource.content = params[:content]
+      @resource.save
+      redirect to "resources/<%=@resource.id%>"
+    else
+      redirect to "/failure"
     end
   end
 

@@ -1,0 +1,25 @@
+<h1>Your Current Resources:</h1>
+<table>
+  <tr>
+    <th>| Name | </th>
+    <th>Category | </th>
+    <th>Link | </th>
+    <th>Source | </th>
+    <th>Cost | </th>
+    <th>Notes | </th>
+    <th>Actions |</th>
+  </tr>
+  <%@resources.each do |resource|%>
+  <tr>
+    <td><%= resource.name %></td>
+    <td><%= resource.category %></td>
+    <td><a href="<%=resource.link%>">Resource Link</a></td>
+    <td><%= resource.source %></td>
+    <td><%= resource.cost %></td>
+    <td><%= resource.notes %></td>
+    <td><a href="/resources/<%=resource.id%>">View More Options For This Resource</a></td>
+  </tr>
+  <%end%>
+<table>
+
+<a href="/resources/new">Create New Resource</a>

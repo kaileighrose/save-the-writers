@@ -1,0 +1,25 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Link</th>
+    <th>Source</th>
+    <th>Cost</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td><%= @resource.name %></td>
+    <td><%= @resource.category %></td>
+    <td><%= @resource.link %></td>
+    <td><%= @resource.source %></td>
+    <td><%= @resource.cost %></td>
+    <td><%= @resource.notes %></td>
+  </tr>
+<table>
+
+<a href="/resources/<%=@resource.id%>/edit">Edit This Resource</a>
+<form action="/resources/<%=@resource.id%>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete this Resource">
+</form>
+<a href="/resources">See All Resources</a>
