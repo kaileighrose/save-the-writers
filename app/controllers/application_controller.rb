@@ -42,7 +42,7 @@ class ApplicationController < Sinatra::Base
   get '/resources' do
     if logged_in?
       @resources = current_user.resources
-      erb :all_resources
+      erb :'/resources/all_resources'
     else
       redirect "/failure"
     end

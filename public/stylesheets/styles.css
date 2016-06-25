@@ -1,0 +1,25 @@
+body { 
+      font-family: Arial, Verdana, sans-serif;
+      color: #111111; 
+      background: lightgrey;
+     }
+th, td { 
+      padding: 7px 10px 10px 10px;}
+th {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 90%;
+      border-bottom: 2px solid #111111;
+      border-top: 1px solid #999;
+      border-right: 1px solid #999;
+      border-left: 1px solid #999; 
+      text-align: center;
+      background: #66cdaa; 
+      font-family: Georgia, Times, serif;
+}
+
+h1 {
+      font-family: Impact, fantasy;
+}
+
+
