@@ -24,7 +24,7 @@ class ApplicationController < Sinatra::Base
 
   get '/signup' do
     if !logged_in?
-      erb :'users/create_user'
+      erb(:'users/create_user')
     else
       redirect to "/resources"
     end
@@ -35,7 +35,9 @@ class ApplicationController < Sinatra::Base
       user = User.create(:username => params[:username], :password => params[:password])
       redirect "/login"
     else
-      redirect "/failure"
+      @error_message = 'bad'
+      erb(:'users/create_user')
+      # redirect "/failure"
     end
   end
 
@@ -58,9 +60,7 @@ class ApplicationController < Sinatra::Base
 
   post '/resources' do
     if !params["name"].empty?
-      @resource = Resource.create(:name => params[:name], :category => params[:category], :link => params[:link], :source => params[:source], :cost => params[:cost], :notes => params[:notes])
-      @resource.user_id = current_user.id
-      @resource.save
+      @resource = current_user.resources.create(:name => params[:name], :category => params[:category], :link => params[:link], :source => params[:source], :cost => params[:cost], :notes => params[:notes])
       redirect to "/resources/#{@resource.id}"
     else
       redirect to '/failure'
